@@ -1,0 +1,11 @@
+{
+  "grid": {
+    "color": "black",
+    "min_div": 25,
+    "max_div": 50,
+    "step": 10
+  },
+  "window": {
+    "size": [600, 600]
+  }
+}
