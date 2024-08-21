@@ -5,7 +5,7 @@ from utils import CONFIG
 from utils.timer import SwitchTimer, RepeatedTimer, Time
 from utils.mixer import Music, Sound
 from utils.debbguer import Debugger
-from utils.designer.ui_editor import UiEditor
+from utils.designer.ui_editor import UiEditor, Events
 
 from libs.movement import Movement
 from libs.anim import Transition
@@ -27,6 +27,7 @@ editor.create(
             "unit": "grid",
         },
         "text_data": {},
+        "event_data": {},
     }
 )
 editor.create(
@@ -39,6 +40,7 @@ editor.create(
             "unit": "grid",
         },
         "text_data": {},
+        "event_data": {},
     }
 )
 editor.create(
@@ -51,6 +53,7 @@ editor.create(
             "unit": "grid",
         },
         "text_data": {},
+        "event_data": {},
     }
 )
 editor.create(
@@ -63,11 +66,12 @@ editor.create(
             "unit": "grid",
         },
         "text_data": {},
+        "event_data": {},
     }
 )
 editor.create(
     {
-        "base": {"name": "test", "group": "test_group", "ele_type": "rect"},
+        "base": {"name": "background", "group": "battle", "ele_type": "rect"},
         "element": {
             "color": "#222222",
             "position": [0, 0],
@@ -75,11 +79,26 @@ editor.create(
             "unit": "grid",
         },
         "text_data": {},
+        "event_data": {},
     }
 )
+editor.create(
+    {
+        "base": {"name": "attack", "group": "battle", "ele_type": "button"},
+        "element": {
+            "base_color": "#111111",
+            "hover_color": "#333333",
+            "select_color": "#000000",
+            "position": [2, 21],
+            "size": [6, 2],
+            "unit": "grid",
+        },
+        "text_data": {"text": "Attack", "color": "white", "alignment": "center"},
+        "event_data": {},
+    }
+)
+
 player = editor.get("player")
-editor.toggle_group("test_group")
-editor.toggle_group("test_group")
 
 Transition.set_transition(editor.get("battle_trans"), 600, -100, duration=0.5)
 
@@ -93,6 +112,7 @@ while True:
                 pygame.quit()
                 sys.exit()
         Debugger.check_events(event)
+        Events.run(event)
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_RIGHT]:

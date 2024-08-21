@@ -35,6 +35,9 @@ class Transition:
         """"""
         transition = Transition.transitions.get(name)
 
+        if transition.get("running"):
+            return
+
         transition["running"] = True
         if transition.get("start_x") != transition.get("end_x"):
             transition["current_x"] = transition.get("start_x")
