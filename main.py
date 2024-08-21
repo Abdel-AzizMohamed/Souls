@@ -8,6 +8,7 @@ from utils.debbguer import Debugger
 from utils.designer.ui_editor import UiEditor
 
 from libs.movement import Movement
+from libs.anim import Transition
 
 pygame.init()
 pygame.mixer.init()
@@ -22,17 +23,51 @@ editor.create(
         "element": {
             "color": "red",
             "position": [5, 5],
-            "size": [4, 4],
+            "size": [1, 1],
             "unit": "grid",
         },
-        "text_data": {
-            "text": "Yuki chan",
-            "color": "#333333",
-            "size": 16,
+        "text_data": {},
+    }
+)
+editor.create(
+    {
+        "base": {"name": "monster1", "group": "gameplay", "ele_type": "rect"},
+        "element": {
+            "color": "blue",
+            "position": [10, 7],
+            "size": [1, 1],
+            "unit": "grid",
         },
+        "text_data": {},
+    }
+)
+editor.create(
+    {
+        "base": {"name": "monster2", "group": "gameplay", "ele_type": "rect"},
+        "element": {
+            "color": "pink",
+            "position": [12, 3],
+            "size": [1, 1],
+            "unit": "grid",
+        },
+        "text_data": {},
+    }
+)
+editor.create(
+    {
+        "base": {"name": "battle_trans", "group": "gameplay", "ele_type": "rect"},
+        "element": {
+            "color": "black",
+            "position": [25, 0],
+            "size": [30, 25],
+            "unit": "grid",
+        },
+        "text_data": {},
     }
 )
 player = editor.get("player")
+
+Transition.set_transition(editor.get("battle_trans"), 600, -100, duration=0.5)
 
 while True:
     for event in pygame.event.get():
@@ -47,6 +82,7 @@ while True:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_RIGHT]:
+        Transition.start("battle_trans")
         Movement.move(player, 1, 0)
     if keys[pygame.K_LEFT]:
         Movement.move(player, -1, 0)
@@ -60,6 +96,9 @@ while True:
 
     editor.draw()
     Debugger.run()
-    Time.calc_delta_time()
+
+    Transition.run()
+
     pygame.display.update()
+    Time.calc_delta_time()
     clock.tick(60)
