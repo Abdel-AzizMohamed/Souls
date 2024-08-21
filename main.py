@@ -65,7 +65,21 @@ editor.create(
         "text_data": {},
     }
 )
+editor.create(
+    {
+        "base": {"name": "test", "group": "test_group", "ele_type": "rect"},
+        "element": {
+            "color": "#222222",
+            "position": [0, 0],
+            "size": [25, 25],
+            "unit": "grid",
+        },
+        "text_data": {},
+    }
+)
 player = editor.get("player")
+editor.toggle_group("test_group")
+editor.toggle_group("test_group")
 
 Transition.set_transition(editor.get("battle_trans"), 600, -100, duration=0.5)
 

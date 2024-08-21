@@ -9,6 +9,7 @@ class UiEditor:
 
     ui_classes = {"rect": Rect}
     ui_elements = {}
+    ui_groups = {}
 
     def create(self, data: dict) -> None:
         """Creates a new ui element"""
@@ -23,6 +24,7 @@ class UiEditor:
 
         if group not in UiEditor.ui_elements:
             UiEditor.ui_elements[group] = []
+            UiEditor.ui_groups[group] = True
 
         UiEditor.ui_elements[group].append(element)
 
@@ -32,8 +34,9 @@ class UiEditor:
 
         elements = [
             element
-            for element_list in UiEditor.ui_elements.values()
+            for group, element_list in UiEditor.ui_elements.items()
             for element in element_list
+            if UiEditor.ui_groups.get(group)
         ]
 
         for element in elements:
@@ -62,3 +65,7 @@ class UiEditor:
                 return element
 
         return None
+
+    def toggle_group(self, name: str) -> None:
+        """Toggles a given group"""
+        UiEditor.ui_groups[name] = not UiEditor.ui_groups[name]
